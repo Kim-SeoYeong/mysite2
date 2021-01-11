@@ -18,15 +18,15 @@
 			</h1>
 
 			<ul>
-				<li><a href="">로그인</a></li>
-				<li><a href="">회원가입</a></li>
+				<li><a href="/mysite2/user?action=loginForm">로그인</a></li>
+				<li><a href="/mysite2/user?action=joinForm">회원가입</a></li>
 			</ul>
 		</div>
 		<!-- //header -->
 
 		<div id="nav">
 			<ul>
-				<li><a href="">방명록</a></li>
+				<li><a href="/mysite2/guestbook?action=guestList">방명록</a></li>
 				<li><a href="">갤러리</a></li>
 				<li><a href="">게시판</a></li>
 				<li><a href="">입사지원서</a></li>
@@ -66,7 +66,7 @@
 					<p class="text-large bold">
 						회원가입을 축하합니다.<br>
 						<br>
-						<a href="" >[로그인하기]</a>
+						<a href="/mysite2/user?action=loginForm" >[로그인하기]</a>
 					</p>
 						
 				</div>
