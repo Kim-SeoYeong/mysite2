@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import = "com.javaex.vo.UserVo" %>
+
+<%
+	UserVo authUser = (UserVo)session.getAttribute("authUser");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,10 +21,20 @@
 				<a href="">MySite</a>
 			</h1>
 
-			<ul>
-				<li><a href="/mysite2/user?action=loginForm">로그인</a></li>
-				<li><a href="/mysite2/user?action=joinForm">회원가입</a></li>
-			</ul>
+			<!-- 로그인이 안되었을 때 -->
+			<%if(authUser==null) { %>
+				<ul>
+					<li><a href="/mysite2/user?action=loginForm">로그인</a></li>
+					<li><a href="/mysite2/user?action=joinForm">회원가입</a></li>
+				</ul>
+			<%} else { %>
+				<!-- 로그인 성공했을 때 (= session 영역에 authUser이라는 값이 있으면) -->
+				<ul>
+					<li><%=authUser.getName() %> 님 안녕하세요^^</li>
+					<li><a href="/mysite2/user?action=logout">로그아웃</a></li>
+					<li><a href="">회원정보수정</a></li>
+				</ul>
+			<%} %>
 			
 		</div>
 		<!-- //header -->
@@ -62,18 +77,18 @@
 
 			<div id="user">
 				<div id="loginForm">
-					<form action="" method="">
+					<form action="/mysite2/user" method="get">
 
 						<!-- 아이디 -->
 						<div class="form-group">
 							<label class="form-text" for="input-uid">아이디</label> 
-							<input type="text" id="input-uid" name="" value="" placeholder="아이디를 입력하세요">
+							<input type="text" id="input-uid" name="id" value="" placeholder="아이디를 입력하세요">
 						</div>
 
 						<!-- 비밀번호 -->
 						<div class="form-group">
 							<label class="form-text" for="input-pass">비밀번호</label> 
-							<input type="text" id="input-pass" name="" value="" placeholder="비밀번호를 입력하세요"	>
+							<input type="text" id="input-pass" name="pw" value="" placeholder="비밀번호를 입력하세요"	>
 						</div>
 
 						
@@ -81,7 +96,7 @@
 		                <div class="button-area">
 		                    <button type="submit" id="btn-submit">로그인</button>
 		                </div>
-						
+						<input type="text" name="action" value="login">
 					</form>
 				</div>
 				<!-- //loginForm -->

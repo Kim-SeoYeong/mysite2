@@ -94,5 +94,51 @@ public class UserDao {
 		return count;
 	}
 	
+	public UserVo getUser(String id, String pw) {
+		UserVo userVo = null;
+		
+		getConnection();
+		
+		try {
+			/*
+				select  no,
+				        id,
+				        password,
+				        name,
+				        gender
+				from users
+				where id = 'aaa'
+				and password = '1234';
+			*/
+			String query = "";
+			query += " select  no,       ";
+			query += "         name      ";
+			query += " from users        ";
+			query += " where id = ?      ";
+			query += " and password = ?  ";
+			
+			pstmt = conn.prepareStatement(query);	//쿼리로 만들기
+			
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
+			
+			rs = pstmt.executeQuery();	//쿼리문 실행
+			
+			while(rs.next()) {
+				int no = rs.getInt("no"); 
+				String name = rs.getString("name");
+				
+				userVo = new UserVo(no, name);
+			}
+			
+		} catch (SQLException e) {
+		    System.out.println("error:" + e);
+		}
+		
+		close();
+		
+		return userVo;
+	}
+	
 	
 }
