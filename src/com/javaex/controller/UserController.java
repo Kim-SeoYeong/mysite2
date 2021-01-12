@@ -93,6 +93,55 @@ public class UserController extends HttpServlet {
 			session.invalidate();
 			
 			WebUtil.redirect(request, response, "/mysite2/main");
+		} else if("updateForm".equals(action)) {
+			System.out.println("회원정보수정  폼");
+			
+			//세션영역에 있는 로그인 상태인 유저 no를 가져오기 위해
+			HttpSession session = request.getSession();
+			UserVo authVo = (UserVo)session.getAttribute("authUser");
+			
+			//new UserDao
+			UserDao userDao = new UserDao();
+			
+			//세션영역에 있는 no를 가져와 getUser(no)에 넣어줘서 유저정보를 조회해옴
+			UserVo userVo = userDao.getUser(authVo.getNo());
+			
+			//getUser로 조회된 유저정보를 uvo로 넘겨줌.
+			session.setAttribute("uvo", userVo);
+			
+			//포워드 --> modifyForm.jsp
+			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
+		} else if("update".equals(action)) {
+			System.out.println("회원정보수정");
+			
+			//파라미터 값 가져오기
+			int no = Integer.parseInt(request.getParameter("userno"));
+			String password = request.getParameter("userpass");
+			String name = request.getParameter("username");
+			String gender = request.getParameter("usergender");
+			//userVo
+			UserVo userVo = new UserVo(no, password, name, gender);
+			
+			//new UserDao
+			UserDao userDao = new UserDao();
+			userDao.userUpdate(userVo);
+			
+			//수정된 내용을 session으로 부터 유저 정보를 얻어오자
+			HttpSession session = request.getSession();
+			UserVo authVo = (UserVo)session.getAttribute("authUser");
+			//세션영역에 있는 no를 가져와 getUser(no)에 넣어줘서 유저정보를 조회해옴
+			UserVo uvo = userDao.getUser(authVo.getNo());
+			
+			//수정된 id랑 password를 가지고 다시 로그인정보를 조회해옴
+			String id = uvo.getId();
+			String pw = uvo.getPassword();
+			UserVo userInfo = userDao.getUser(id, pw);
+			
+			//세션의 정보를 다시 authUser에 저장을 해준다
+			session.setAttribute("authUser", userInfo);
+			
+			//main화면으로 redirect
+			WebUtil.redirect(request, response, "/mysite2/main");
 		}
 	}
 

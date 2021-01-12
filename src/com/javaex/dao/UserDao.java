@@ -140,5 +140,97 @@ public class UserDao {
 		return userVo;
 	}
 	
+	//메소드 오버로딩
+	//no에 맞는 한 사람의 데이터를 조회해오기 위해
+	public UserVo getUser(int no) {
+		UserVo userVo = null;
+		
+		getConnection();
+		
+		try {
+			/*
+				select  no,
+				        id,
+				        password,
+				        name,
+				        gender
+				from users
+				where no = 1;
+			*/
+			String query = "";
+			query += " select  no,       ";
+			query += "         id,       ";
+			query += "         password, ";
+			query += "         name,     ";
+			query += "         gender    ";
+			query += " from users        ";
+			query += " where no = ?      ";
+			
+			pstmt = conn.prepareStatement(query);	//쿼리로 만들기
+			
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();	//쿼리문 실행
+			
+			while(rs.next()) {
+				int userno = rs.getInt("no"); 
+				String id = rs.getString("id");
+				String pw = rs.getString("password");
+				String name = rs.getString("name");
+				String gender = rs.getString("gender");
+				
+				userVo = new UserVo(userno, id, pw, name, gender);
+			}
+			
+		} catch (SQLException e) {
+		    System.out.println("error:" + e);
+		}
+		
+		close();
+		
+		return userVo;
+	}
+	
+	//회원정보 수정 update
+	public int userUpdate(UserVo uvo) {
+		int count = 0;
+		
+		getConnection();
+		
+		try {
+			/*
+				update users
+				set password = '1111',
+				    name = '김서영이당',
+				    gender = 'male'
+				where no = 1;
+			*/
+			String query = "";
+			query += " update users      ";
+			query += " set password = ?, ";
+			query += "     name = ?,     ";
+			query += "     gender = ?    ";
+			query += " where no = ?      ";
+			
+			pstmt = conn.prepareStatement(query);	//쿼리로 만들기
+			
+			pstmt.setString(1, uvo.getPassword());
+			pstmt.setString(2, uvo.getName());
+			pstmt.setString(3, uvo.getGender());
+			pstmt.setInt(4, uvo.getNo());
+			
+			//결과
+			count = pstmt.executeUpdate();
+			System.out.println("[ " + count + " 건 수정됨.]");
+			
+		} catch (SQLException e) {
+		    System.out.println("error:" + e);
+		}
+		
+		close();
+		
+		return count;
+	}
+	
 	
 }

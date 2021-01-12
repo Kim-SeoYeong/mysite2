@@ -45,7 +45,7 @@
 				<ul>
 					<li><%=authUser.getName() %> 님 안녕하세요^^</li>
 					<li><a href="/mysite2/user?action=logout">로그아웃</a></li>
-					<li><a href="">회원정보수정</a></li>
+					<li><a href="/mysite2/user?action=updateForm">회원정보수정</a></li>
 				</ul>
 			<%} %>
 		</div>
