@@ -94,6 +94,7 @@ public class UserDao {
 		return count;
 	}
 	
+	//로그인할때 세션 정보용
 	public UserVo getUser(String id, String pw) {
 		UserVo userVo = null;
 		

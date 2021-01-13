@@ -2,10 +2,8 @@
 <%@ page import = "com.javaex.vo.UserVo" %>
 
 <%
-	//기존 no와 Name만 조회해올 수 있는 authUser
-	UserVo authUser = (UserVo)session.getAttribute("authUser");
-	//authUser에서는 ID를 조회해올 수 없기때문에 ID가 조회가능한 uvo를 가져와서 userVo에 담아줌.
-	UserVo userVo = (UserVo)session.getAttribute("uvo");
+	//UserVo userVo = (UserVo)session.getAttribute("uvo"); //메모리문제때문에 session에 넣어서 가져오면 안됨.
+	UserVo userVo = (UserVo)request.getAttribute("userVo");
 %>
 <!DOCTYPE html>
 <html>
@@ -20,39 +18,8 @@
 <body>
 	<div id="wrap">
 
-		<div id="header">
-			<h1>
-				<a href="">MySite</a>
-			</h1>
-
-			<!-- 로그인이 안되었을 때 -->
-			<%if(authUser==null) { %>
-				<ul>
-					<li><a href="/mysite2/user?action=loginForm">로그인</a></li>
-					<li><a href="/mysite2/user?action=joinForm">회원가입</a></li>
-				</ul>
-			<%} else { %>
-				<!-- 로그인 성공했을 때 (= session 영역에 authUser이라는 값이 있으면) -->
-				<ul>
-					<li><%=authUser.getName() %> 님 안녕하세요^^</li>
-					<li><a href="/mysite2/user?action=logout">로그아웃</a></li>
-					<li><a href="/mysite2/user?action=updateForm">회원정보수정</a></li>
-				</ul>
-			<%} %>
-		</div>
-		<!-- //header -->
-
-		<div id="nav">
-			<ul>
-				<li><a href="">방명록</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">입사지원서</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
-		<!-- //nav -->
-
+		<!--  header + navi 공통으로 옮겼음 -->
+		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 		<div id="aside">
 			<h2>회원</h2>
 			<ul>
@@ -123,10 +90,7 @@
 		                <div class="button-area">
 		                    <button type="submit" id="btn-submit">회원정보수정</button>
 		                </div>
-						
-						<!-- update를 하려면 조건에 no값이 필요해서 userno라는 이름으로 만들음. -->
-						<input type="text" name="userno" value="<%=authUser.getNo() %>">
-						
+	
 						<input type="text" name="action" value="update">
 					</form>
 				
@@ -139,10 +103,8 @@
 		<!-- //content  -->
 		<div class="clear"></div>
 		
-		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
-		</div>
-		<!-- //footer -->
+		<!-- footer -->
+		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 		
 	</div>
 	<!-- //wrap -->
