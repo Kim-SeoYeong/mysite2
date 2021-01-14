@@ -79,7 +79,7 @@ public class GuestbookController extends HttpServlet {
 			
 			if (count == 1) {	//성공
 				//redirect
-				WebUtil.redirect(request, response, "/mysite2/guestbook?action=guestList");
+				WebUtil.redirect(request, response, "/mysite2/guestbook?action=guestList&result=1");
 			} else {	//실패
 				//deleteform 화면에 비밀번호 틀린문구를 보여주는 조건을 위해 count값을 보내준다.
 				request.setAttribute("result", count);

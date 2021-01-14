@@ -1,10 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import = "com.javaex.vo.UserVo" %>
 
-<%
-	//UserVo userVo = (UserVo)session.getAttribute("uvo"); //메모리문제때문에 session에 넣어서 가져오면 안됨.
-	UserVo userVo = (UserVo)request.getAttribute("userVo");
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +16,8 @@
 	<div id="wrap">
 
 		<!--  header + navi 공통으로 옮겼음 -->
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
+		
 		<div id="aside">
 			<h2>회원</h2>
 			<ul>
@@ -53,36 +51,38 @@
 						<div class="form-group">
 							<label class="form-text" for="input-uid">아이디</label> 
 							<!-- userVo의 Id를 조회함. -->
-							<span class="text-large bold"><%=userVo.getId() %></span>
+							<span class="text-large bold">${userVo.id}</span>	<!-- requestScope.userVo.id -->
 						</div>
 
 						<!-- 비밀번호 -->
 						<div class="form-group">
-							<label class="form-text" for="input-pass">패스워드</label> 
-							<input type="text" id="input-pass" name="userpass" value="<%=userVo.getPassword() %>" placeholder="비밀번호를 입력하세요"	>
+							<label class="form-text" for="input-pass">패스워드</label> 	<!-- requestScope.userVo.password -->
+							<input type="text" id="input-pass" name="userpass" value="${userVo.password}" placeholder="비밀번호를 입력하세요"	>
 						</div>
 
 						<!-- 이메일 -->
 						<div class="form-group">
-							<label class="form-text" for="input-name">이름</label> 
-							<input type="text" id="input-name" name="username" value="<%=userVo.getName() %>" placeholder="이름을 입력하세요">
+							<label class="form-text" for="input-name">이름</label> 	<!-- requestScope.userVo.name -->
+							<input type="text" id="input-name" name="username" value="${userVo.name}" placeholder="이름을 입력하세요">
 						</div>
 
 						<!-- //나이 -->
 						<div class="form-group">
 							<span class="form-text">성별</span> 
 							<!-- 성별을 남,여일때 구분지어서 체크해줘야하기 때문에 조건을 주자. -->
-							<%if ((userVo.getGender()).equals("male")) {%>
+							<!-- requestScope.userVo.gender -->
+							<c:if test="${userVo.gender == 'male'}">
 								<label for="rdo-male">남</label>
 								<input type="radio" id="rdo-male" name="usergender" value="male" checked> 
 								<label for="rdo-female">여</label> 	
 								<input type="radio" id="rdo-male" name="usergender" value="female"> 
-							<%} else if((userVo.getGender()).equals("female")) {%>
+							</c:if>
+							<c:if test="${userVo.gender == 'female'}">
 								<label for="rdo-male">남</label>
 								<input type="radio" id="rdo-male" name="usergender" value="male" > 
 								<label for="rdo-female">여</label> 	
 								<input type="radio" id="rdo-male" name="usergender" value="female" checked> 
-							<%} %>
+							</c:if>
 							
 						</div>
 
@@ -104,7 +104,7 @@
 		<div class="clear"></div>
 		
 		<!-- footer -->
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 		
 	</div>
 	<!-- //wrap -->

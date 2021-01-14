@@ -1,17 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<% 
-	int no = Integer.parseInt(request.getParameter("no"));
-
-	//delete 결과가 성공인지 실패인지 받아줄 변수
-	int count;
-
-	try {
-		count = (int)request.getAttribute("result");	//object 형식이기때문에 int로 형변환 시켜줌
-	} catch(NullPointerException e) {
-		count = 1;
-	}
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,8 +14,8 @@
 <body>
 	<div id="wrap">
 
-				<!--  header + navi 공통으로 옮겼음 -->
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<!--  header + navi 공통으로 옮겼음 -->
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 
 		<div id="aside">
 			<h2>방명록</h2>
@@ -65,14 +54,14 @@
 							<td>비밀번호</td>
 							<td><input type="password" name="pass"></td>
 							<td class="text-left"><button type="submit">삭제</button></td>
-							<td><a href="/mysite2/guestbook/action=guestList">[메인으로 돌아가기]</a></td>
+							<td><a href="/mysite2/guestbook?action=guestList">[메인으로 돌아가기]</a></td>
 						</tr>
 					</table>
-					<%if (count == 0) { %>
-						<h2>비밀번호를 잘못 입력하셨습니다. 다시 입력해주세요!</h2><br>
-					<%} %>
+					<c:if test="${requestScope.result == 0}">
+						<p>비밀번호를 잘못 입력하셨습니다. 다시 입력해주세요!</p><br>
+					</c:if>
 					<input type='hidden' name="action" value="delete">
-					<input type='hidden' name="no" value="<%=no%>">
+					<input type='hidden' name="no" value="${param.no}">
 				</form>
 				
 			</div>
@@ -82,7 +71,7 @@
 		<div class="clear"></div>
 		
 		<!-- footer -->
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 
 	</div>
 	<!-- //wrap -->
