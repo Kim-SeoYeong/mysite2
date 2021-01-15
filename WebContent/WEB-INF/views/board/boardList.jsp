@@ -38,13 +38,14 @@
 
 			<div id="board">
 				<div id="list">
-					<form action="" method="">
+					<form action="/mysite2/Board" method="get">
 						<div class="form-group text-right">
-							<input type="text">
+							<input type="text" name="searchTxt">
 							<button type="submit" id=btn_search>검색</button>
+							<input type="hidden" name="action" value="search">
 						</div>
 					</form>
-					<table >
+					<table>
 						<thead>
 							<tr>
 								<th>번호</th>
@@ -55,17 +56,40 @@
 								<th>관리</th>
 							</tr>
 						</thead>
-						<tbody>
-							<c:forEach items="${requestScope.bList}" var="boardList">
+							<tbody>
+							<c:if test="${empty param.searchTxt}">
+								<c:forEach items="${requestScope.bList}" var="boardList">
+									<tr>
+										<td>${boardList.no}</td>
+										<td class="text-left"><a
+											href="/mysite2/Board?action=readBoard&no=${boardList.no}">${boardList.title}</a></td>
+										<td>${boardList.name}</td>
+										<td>${boardList.hit}</td>
+										<td>${boardList.regDate}</td>
+										<c:choose>
+											<c:when test="${authUser.no eq boardList.userNo}">
+												<td><a
+													href="/mysite2/Board?action=delete&no=${boardList.no}">[삭제]</a></td>
+											</c:when>
+											<c:otherwise>
+												<td><a href=""></a></td>
+											</c:otherwise>
+										</c:choose>
+									</tr>
+								</c:forEach>
+							</c:if>
+							<c:forEach items="${requestScope.sList}" var="searchList">
 								<tr>
-									<td>${boardList.no}</td>
-									<td class="text-left"><a href="/mysite2/Board?action=readBoard&no=${boardList.no}">${boardList.title}</a></td>
-									<td>${boardList.name}</td>
-									<td>${boardList.hit}</td>
-									<td>${boardList.regDate}</td>
+									<td>${searchList.no}</td>
+									<td class="text-left"><a
+										href="/mysite2/Board?action=readBoard&no=${searchList.no}">${searchList.title}</a></td>
+									<td>${searchList.name}</td>
+									<td>${searchList.hit}</td>
+									<td>${searchList.regDate}</td>
 									<c:choose>
-										<c:when test ="${authUser.no eq boardList.userNo}">
-											<td><a href="/mysite2/Board?action=delete&no=${boardList.no}">[삭제]</a></td>
+										<c:when test="${authUser.no eq searchList.userNo}">
+											<td><a
+												href="/mysite2/Board?action=delete&no=${searchList.no}">[삭제]</a></td>
 										</c:when>
 										<c:otherwise>
 											<td><a href=""></a></td>
@@ -73,42 +97,8 @@
 									</c:choose>
 								</tr>
 							</c:forEach>
-							<!-- 
-							<tr>
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
-							<tr>
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
-							<tr>
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
-							<tr class="last">
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
-							-->
 						</tbody>
-					</table>
+						</table>
 		
 					<div id="paging">
 						<ul>

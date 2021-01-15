@@ -111,6 +111,68 @@ public class BoardDao {
 		return boardList;
 	}
 	
+	//게시판 제목 검색(like문 이용한 select)	-- 메소드 오버로딩
+	public List<BoardVo> getBoardList(String str) {
+		List<BoardVo> boardList = new ArrayList<BoardVo>();
+		
+		getConnection();
+	
+		try {
+			/*
+				select  board.no,
+				        board.title,
+				        users.name,
+				        board.content,
+				        board.hit,
+				        board.reg_date
+				from users, board
+				where users.no = board.no
+				and board.title like '%안%'
+				order by board.reg_date desc;
+			*/
+			
+			String query = "";
+			query += " select  board.no,         ";
+			query += "         board.title,      ";
+			query += "         board.content,    ";
+			query += "         users.name,       ";
+			query += "         board.hit,        ";
+			query += "         board.reg_date,   ";
+			query += "         board.user_no     ";
+			query += " from users, board         ";
+			query += " where users.no = board.user_no ";
+			query += " and board.title like ?    ";
+			query += " order by board.reg_date desc ";
+			
+			pstmt = conn.prepareStatement(query);	//쿼리로 만들기
+			
+			pstmt.setString(1, "%" + str + "%");
+			
+			rs = pstmt.executeQuery();
+
+			//결과 처리
+			while(rs.next()) {	
+				int no = rs.getInt("no");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String name = rs.getString("name");
+				int hit = rs.getInt("hit");
+				String regDate = rs.getString("reg_date");
+				int userNo = rs.getInt("user_no");
+				//no, title, content, name, hit, regDate, userNo
+				BoardVo boardVo = new BoardVo(no, title, content, name, hit, regDate, userNo);
+				boardList.add(boardVo);
+			}
+			
+		} catch(SQLException e) {
+			System.out.println("error:" + e);
+		}
+		
+		close();
+		
+		return boardList;
+	}
+	
 	//게시판 글 한개 조회(select)
 	public BoardVo getBoard(int no) {
 		

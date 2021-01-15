@@ -138,6 +138,20 @@ public class BoardController extends HttpServlet {
 			
 			//redirect --> action = boardList
 			WebUtil.redirect(request, response, "/mysite2/Board?action=boardList");
+		} else if ("search".equals(action)) {
+			System.out.println("게시글 검색하기");
+			
+			//파라미터 값 가져오기
+			String str = request.getParameter("searchTxt");
+			
+			//Dao --> getBoardList(str) --> 검색어에 맞는 게시물 조회하기
+			BoardDao boardDao = new BoardDao();
+			List<BoardVo> searchList = boardDao.getBoardList(str);
+			
+			//데이터 전송
+			request.setAttribute("sList", searchList);
+			//포워드 --> boardList.jsp
+			WebUtil.forward(request, response, "/WEB-INF/views/board/boardList.jsp");
 		}
 	}
 
