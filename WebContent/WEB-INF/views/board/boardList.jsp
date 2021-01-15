@@ -57,7 +57,27 @@
 							</tr>
 						</thead>
 							<tbody>
-							<c:if test="${empty param.searchTxt}">
+								<c:if test="${!empty param.searchTxt}">
+									<c:forEach items="${requestScope.sList}" var="searchList">
+										<tr>
+											<td>${searchList.no}</td>
+											<td class="text-left"><a
+												href="/mysite2/Board?action=readBoard&no=${searchList.no}">${searchList.title}</a></td>
+											<td>${searchList.name}</td>
+											<td>${searchList.hit}</td>
+											<td>${searchList.regDate}</td>
+											<c:choose>
+												<c:when test="${authUser.no eq searchList.userNo}">
+													<td><a
+														href="/mysite2/Board?action=delete&no=${searchList.no}">[삭제]</a></td>
+												</c:when>
+												<c:otherwise>
+													<td><a href=""></a></td>
+												</c:otherwise>
+											</c:choose>
+										</tr>
+									</c:forEach>
+								</c:if>
 								<c:forEach items="${requestScope.bList}" var="boardList">
 									<tr>
 										<td>${boardList.no}</td>
@@ -77,26 +97,6 @@
 										</c:choose>
 									</tr>
 								</c:forEach>
-							</c:if>
-							<c:forEach items="${requestScope.sList}" var="searchList">
-								<tr>
-									<td>${searchList.no}</td>
-									<td class="text-left"><a
-										href="/mysite2/Board?action=readBoard&no=${searchList.no}">${searchList.title}</a></td>
-									<td>${searchList.name}</td>
-									<td>${searchList.hit}</td>
-									<td>${searchList.regDate}</td>
-									<c:choose>
-										<c:when test="${authUser.no eq searchList.userNo}">
-											<td><a
-												href="/mysite2/Board?action=delete&no=${searchList.no}">[삭제]</a></td>
-										</c:when>
-										<c:otherwise>
-											<td><a href=""></a></td>
-										</c:otherwise>
-									</c:choose>
-								</tr>
-							</c:forEach>
 						</tbody>
 						</table>
 		
