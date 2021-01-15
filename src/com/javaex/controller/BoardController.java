@@ -140,7 +140,7 @@ public class BoardController extends HttpServlet {
 			WebUtil.redirect(request, response, "/mysite2/Board?action=boardList");
 		} else if ("search".equals(action)) {
 			System.out.println("게시글 검색하기");
-			
+			//검색기능 일단 보류.....
 			//파라미터 값 가져오기
 			String str = request.getParameter("searchTxt");
 			
