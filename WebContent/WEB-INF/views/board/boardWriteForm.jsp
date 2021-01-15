@@ -17,27 +17,9 @@
 
 		<!--  header + navi 공통으로 옮겼음 -->
 		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
-		
-		<div id="nav">
-			<ul>
-				<li><a href="">방명록</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">입사지원서</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
-		<!-- //nav -->
 
-		<div id="aside">
-			<h2>게시판</h2>
-			<ul>
-				<li><a href="">일반게시판</a></li>
-				<li><a href="">댓글게시판</a></li>
-			</ul>
-		</div>
-		<!-- //aside -->
-
+		<!-- aside 공통으로 옮김 -->
+		<c:import url="/WEB-INF/views/include/aside.jsp"></c:import>
 
 		<div id="content">
 
@@ -70,7 +52,8 @@
 						
 						<a id="btn_cancel" href="/mysite2/Board?action=boardList">취소</a>
 						<button id="btn_add" type="submit" >등록</button>
-						<input type="text" name="action" value="write">
+						
+						<input type="hidden" name="action" value="write">
 					</form>
 	                <!-- //form -->
 				</div>

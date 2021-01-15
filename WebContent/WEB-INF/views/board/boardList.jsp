@@ -18,14 +18,8 @@
 		<!--  header + navi 공통으로 옮겼음 -->
 		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 		
-		<div id="aside">
-			<h2>게시판</h2>
-			<ul>
-				<li><a href="">일반게시판</a></li>
-				<li><a href="">댓글게시판</a></li>
-			</ul>
-		</div>
-		<!-- //aside -->
+		<!-- aside 공통으로 옮김 -->
+		<c:import url="/WEB-INF/views/include/aside.jsp"></c:import>
 
 		<div id="content">
 
@@ -65,11 +59,18 @@
 							<c:forEach items="${requestScope.bList}" var="boardList">
 								<tr>
 									<td>${boardList.no}</td>
-									<td class="text-left"><a href="/mysite2/Board?action=readBoard&no=${boardList.no}&hit=${boardList.hit}">${boardList.title}</a></td>
+									<td class="text-left"><a href="/mysite2/Board?action=readBoard&no=${boardList.no}">${boardList.title}</a></td>
 									<td>${boardList.name}</td>
 									<td>${boardList.hit}</td>
 									<td>${boardList.regDate}</td>
-									<td><a href="">[삭제]</a></td>
+									<c:choose>
+										<c:when test ="${authUser.no eq boardList.userNo}">
+											<td><a href="/mysite2/Board?action=delete&no=${boardList.no}">[삭제]</a></td>
+										</c:when>
+										<c:otherwise>
+											<td><a href=""></a></td>
+										</c:otherwise>
+									</c:choose>
 								</tr>
 							</c:forEach>
 							<!-- 

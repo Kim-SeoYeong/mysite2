@@ -38,18 +38,20 @@ public class BoardController extends HttpServlet {
 			
 			//포워드 --> boardList.jsp
 			WebUtil.forward(request, response, "/WEB-INF/views/board/boardList.jsp");
+			
 		} else if ("readBoard".equals(action)) {
 			System.out.println("게시판글 읽기");
 			
+			System.out.println("no" + Integer.parseInt(request.getParameter("no")));
+
 			//파라미터 값 가져오기
 			int no = Integer.parseInt(request.getParameter("no"));
-			int hit = Integer.parseInt(request.getParameter("hit"));
-			
+
 			//Dao --> getBoard() 특정한 게시판글 조회
 			BoardDao boardDao = new BoardDao();
 			
 			//읽을때마다 조회수 업데이트를 시켜주기 위해
-			boardDao.hitUpdate(hit, no);
+			boardDao.hitUpdate(no);
 			
 			//System.out.println("업데이트로직 탔는지");
 			BoardVo boardVo = boardDao.getBoard(no);
@@ -59,11 +61,13 @@ public class BoardController extends HttpServlet {
 			
 			//포워드 --> boarRead.jsp
 			WebUtil.forward(request, response, "/WEB-INF/views/board/boardRead.jsp");
+			
 		} else if ("writeBoard".equals(action)) {
 			System.out.println("게시판 글쓰기 폼");
 			
 			//포워드 --> boardWriteForm.jsp
 			WebUtil.forward(request, response, "/WEB-INF/views/board/boardWriteForm.jsp");
+			
 		} else if ("write".equals(action)) {
 			System.out.println("게시판 글 등록");
 			
@@ -85,6 +89,7 @@ public class BoardController extends HttpServlet {
 			
 			//redirect --> action = boardList로
 			WebUtil.redirect(request, response, "/mysite2/Board?action=boardList");
+			
 		} else if ("boardModify".equals(action)) {
 			System.out.println("게시글 수정하기 폼");
 			
@@ -102,6 +107,7 @@ public class BoardController extends HttpServlet {
 			
 			//포워드 --> boardModifyForm.jsp
 			WebUtil.forward(request, response, "/WEB-INF/views/board/boardModifyForm.jsp");
+			
 		} else if ("modify".equals(action)) {
 			System.out.println("게시글 수정하기");
 			
@@ -118,6 +124,19 @@ public class BoardController extends HttpServlet {
 			boardDao.boardUpdate(boardVo);
 			
 			//redirect	--> action = boardList
+			WebUtil.redirect(request, response, "/mysite2/Board?action=boardList");
+			
+		} else if ("delete".equals(action)) {
+			System.out.println("게시글 삭제하기");
+			
+			//파라미터 값 가져오기
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+			//Dao --> boardDelete() --> 게시물 삭제
+			BoardDao boardDao = new BoardDao();
+			boardDao.boardDelete(no);
+			
+			//redirect --> action = boardList
 			WebUtil.redirect(request, response, "/mysite2/Board?action=boardList");
 		}
 	}

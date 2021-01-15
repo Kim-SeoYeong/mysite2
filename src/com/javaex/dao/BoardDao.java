@@ -79,7 +79,8 @@ public class BoardDao {
 			query += "         board.content,    ";
 			query += "         users.name,       ";
 			query += "         board.hit,        ";
-			query += "         board.reg_date    ";
+			query += "         board.reg_date,   ";
+			query += "         board.user_no     ";
 			query += " from users, board         ";
 			query += " where users.no = board.user_no ";
 			query += " order by board.reg_date desc ";
@@ -95,8 +96,9 @@ public class BoardDao {
 				String name = rs.getString("name");
 				int hit = rs.getInt("hit");
 				String regDate = rs.getString("reg_date");
-				
-				BoardVo boardVo = new BoardVo(no, title, content, name, hit, regDate);
+				int userNo = rs.getInt("user_no");
+				//no, title, content, name, hit, regDate, userNo
+				BoardVo boardVo = new BoardVo(no, title, content, name, hit, regDate, userNo);
 				boardList.add(boardVo);
 			}
 			
@@ -168,10 +170,9 @@ public class BoardDao {
 	}
 		
 	//조회수 udate 문
-	public int hitUpdate(int hit, int no) {
+	public int hitUpdate(int no) {
 		int count = 0;
 		//조회할때마다 조회수를 1씩 올려주기 위해서
-		hit++;
 		
 		getConnection();
 		
@@ -183,13 +184,12 @@ public class BoardDao {
 			*/
 			String query = "";
 			query += " update board ";
-			query += " set hit = ?  ";
+			query += " set hit = hit+1 ";
 			query += " where no = ? ";
 			
 			pstmt = conn.prepareStatement(query);	//쿼리로 만들기
-			
-			pstmt.setInt(1, hit);
-			pstmt.setInt(2, no);
+
+			pstmt.setInt(1, no);
 			
 			count = pstmt.executeUpdate();
 			
@@ -279,6 +279,39 @@ public class BoardDao {
 		return count;
 	}
 	
+	//게시판 글 삭제(delete)
+	public int boardDelete(int no) {
+		int count = 0;
+		
+		getConnection();
+		
+		try {
+			/*
+				delete from board
+				where no = 1;
+			*/
+			
+			String query = "";
+			query += " delete from board ";
+			query += " where no = ? ";
+			
+			pstmt = conn.prepareStatement(query);	//쿼리생성
+			
+			pstmt.setInt(1, no);
+			
+			count = pstmt.executeUpdate();
+			
+			//결과
+			System.out.println(count + "건 delete 완료!!");
+			
+		} catch(SQLException e) {
+			System.out.println("error:" + e);
+		}
+		
+		close();
+		
+		return count;
+	}
 	
 	
 	

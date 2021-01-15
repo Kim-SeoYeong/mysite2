@@ -18,26 +18,8 @@
 		<!--  header + navi 공통으로 옮겼음 -->
 		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 		
-		<div id="nav">
-			<ul>
-				<li><a href="">방명록</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">입사지원서</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
-		<!-- //nav -->
-
-		<div id="aside">
-			<h2>게시판</h2>
-			<ul>
-				<li><a href="">일반게시판</a></li>
-				<li><a href="">댓글게시판</a></li>
-			</ul>
-		</div>
-		<!-- //aside -->
-
+		<!-- aside 공통으로 옮김 -->
+		<c:import url="/WEB-INF/views/include/aside.jsp"></c:import>
 
 		<div id="content">
 
@@ -86,12 +68,13 @@
 							<textarea id="txt-content" name="bContent"> ${bvo.content}</textarea>
 						</div>
 						
-						<a id="btn_cancel" href="">취소</a>
+						<a id="btn_cancel" href="/mysite2/Board?action=boardList">취소</a>
 						<button id="btn_modify" type="submit" >수정</button>
 						
 						<!-- 업데이트 조건인 no를 넘겨주기 위해서 -->
 						<input type="hidden" name="no" value="${bvo.no}">
-						<input type="text" name="action" value="modify">
+						
+						<input type="hidden" name="action" value="modify">
 					</form>
 	                <!-- //form -->
 				</div>
