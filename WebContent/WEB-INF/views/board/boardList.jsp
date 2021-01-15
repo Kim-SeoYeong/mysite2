@@ -129,7 +129,7 @@
 						<div class="clear"></div>
 					</div>
 					<c:if test="${!empty authUser}">
-						<a id="btn_write" href="">글쓰기</a>
+						<a id="btn_write" href="/mysite2/Board?action=writeBoard">글쓰기</a>
 					</c:if>
 				</div>
 				<!-- //list -->

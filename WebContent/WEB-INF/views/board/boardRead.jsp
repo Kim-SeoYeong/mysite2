@@ -75,9 +75,19 @@
 								${bvo.content}
 							</span>
 						</div>
-						
-						<a id="btn_modify" href="">수정</a>
-						<a id="btn_modify" href="/mysite2/Board?action=boardList">목록</a>
+						<!-- authUserNo = ${sessionScope.authUser.no}-->
+						<!-- bvoUserNo = ${requestScope.bvo.userNo} -->
+						<!-- 내가 작성한 글만 수정할 수 있도록 조건을 줌. -->
+						<c:choose>
+							<c:when test="${sessionScope.authUser.no eq requestScope.bvo.userNo}">
+								<a id="btn_modify" href="">수정</a>
+								<a id="btn_modify" href="/mysite2/Board?action=boardList">목록</a>
+							</c:when>
+							
+							<c:otherwise>
+								<a id="btn_modify" href="/mysite2/Board?action=boardList">목록</a>
+							</c:otherwise>
+						</c:choose>
 						
 					</form>
 	                <!-- //form -->

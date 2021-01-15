@@ -81,7 +81,7 @@ public class BoardDao {
 			query += "         board.hit,        ";
 			query += "         board.reg_date    ";
 			query += " from users, board         ";
-			query += " where users.no = board.no ";
+			query += " where users.no = board.user_no ";
 			query += " order by board.reg_date desc ";
 			
 			pstmt = conn.prepareStatement(query);	//쿼리로 만들기
@@ -123,18 +123,20 @@ public class BoardDao {
 				        board.reg_date,
 				        board.title,
 				        board.content
+				        board.user_no
 				from users, board
 				where users.no = board.no
 				and board.no = 1;
 			*/
 			String query = "";
-			query += " select  users.name, ";
-			query += "         board.hit, ";
-			query += "         board.reg_date, ";
-			query += "         board.title, ";
-			query += "         board.content ";
+			query += " select  users.name,      ";
+			query += "         board.hit,       ";
+			query += "         board.reg_date , ";
+			query += "         board.title,     ";
+			query += "         board.content,   ";
+			query += "         board.user_no    ";
 			query += " from users, board ";
-			query += " where users.no = board.no ";
+			query += " where users.no = board.user_no ";
 			query += " and board.no = ? ";
 			
 			pstmt = conn.prepareStatement(query);	//쿼리로 만들기
@@ -149,8 +151,9 @@ public class BoardDao {
 				String regDate = rs.getString("reg_date");
 				String title = rs.getString("title");
 				String content = rs.getString("content");
+				int userNo = rs.getInt("user_no");
 
-				boardVo = new BoardVo(title, content, name, hit, regDate);
+				boardVo = new BoardVo(title, content, name, hit, regDate, userNo);
 			}
 			
 		} catch(SQLException e) {
@@ -191,7 +194,7 @@ public class BoardDao {
 			//결과처리
 			System.out.println("조회수 업데이트 완료!!!");
 			
-		}  catch(SQLException e) {
+		} catch(SQLException e) {
 			System.out.println("error:" + e);
 		}
 		
@@ -200,4 +203,38 @@ public class BoardDao {
 		return count;
 	}
 	
+	//게시판 글쓰기 insert문
+	public int boardInsert(BoardVo boardVo) {
+		int count = 0;
+		
+		getConnection();
+		
+		try {
+			/*
+				insert into board
+				values(seq_board_no.nextval, '반가워요', '테스트내용', default, sysdate, 1);
+			*/
+			String query = "  ";
+			query += " insert into board ";
+			query += " values(seq_board_no.nextval, ?, ?, default, sysdate, ?) ";
+			
+			pstmt = conn.prepareStatement(query);	//쿼리 만들기
+			
+			pstmt.setString(1, boardVo.getTitle());
+			pstmt.setString(2, boardVo.getContent());
+			pstmt.setInt(3, boardVo.getUserNo());
+			
+			count = pstmt.executeUpdate();
+			
+			//결과처리
+			System.out.println(count + "건 insert 완료.");
+			
+		} catch(SQLException e) {
+			System.out.println("error:" + e);
+		}
+		
+		close();
+		
+		return count;
+	}
 }

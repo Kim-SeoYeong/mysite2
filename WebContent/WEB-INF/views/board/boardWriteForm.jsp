@@ -15,27 +15,8 @@
 <body>
 	<div id="wrap">
 
-		<div id="header">
-			<h1><a href="">MySite</a></h1>
-			
-			
-			<!--  -->
-				<!-- 로그인실패시, 로그인전 -->
-				<ul>
-					<li><a href="">로그인</a></li>
-					<li><a href="">회원가입</a></li>
-				</ul>
-				
-			<!-- 로그인성공했을때 -->	
-			<!-- 
-				<ul>
-					<li>황일영 님 안녕하세요^^</li>
-					<li><a href="">로그아웃</a></li>
-					<li><a href="">회원정보수정</a></li>
-				</ul>
-			-->
-		</div>
-		<!-- //header -->
+		<!--  header + navi 공통으로 옮겼음 -->
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 		
 		<div id="nav">
 			<ul>
@@ -75,21 +56,21 @@
 
 			<div id="board">
 				<div id="writeForm">
-					<form action="#" method="get">
+					<form action="/mysite2/Board" method="get">
 						<!-- 제목 -->
 						<div class="form-group">
 							<label class="form-text" for="txt-title">제목</label>
-							<input type="text" id="txt-title" name="" value="" placeholder="제목을 입력해 주세요">
+							<input type="text" id="txt-title" name="bTitle" value="" placeholder="제목을 입력해 주세요">
 						</div>
 					
 						<!-- 내용 -->
 						<div class="form-group">
-							<textarea id="txt-content"></textarea>
+							<textarea id="txt-content" name="bContent"></textarea>
 						</div>
 						
-						<a id="btn_cancel" href="">취소</a>
+						<a id="btn_cancel" href="/mysite2/Board?action=boardList">취소</a>
 						<button id="btn_add" type="submit" >등록</button>
-						
+						<input type="text" name="action" value="write">
 					</form>
 	                <!-- //form -->
 				</div>
@@ -100,10 +81,9 @@
 		<!-- //content  -->
 		<div class="clear"></div>
 
-		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
-		</div>
-		<!-- //footer -->
+		<!-- footer -->
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
+		
 	</div>
 	<!-- //wrap -->
 
