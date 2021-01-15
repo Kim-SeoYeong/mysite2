@@ -50,11 +50,12 @@ public class BoardController extends HttpServlet {
 			
 			//읽을때마다 조회수 업데이트를 시켜주기 위해
 			boardDao.hitUpdate(hit, no);
+			
 			//System.out.println("업데이트로직 탔는지");
 			BoardVo boardVo = boardDao.getBoard(no);
+			
 			//데이터 전달
 			request.setAttribute("bvo", boardVo);
-			//session.setAttribute(name, value);
 			
 			//포워드 --> boarRead.jsp
 			WebUtil.forward(request, response, "/WEB-INF/views/board/boardRead.jsp");
@@ -64,7 +65,7 @@ public class BoardController extends HttpServlet {
 			//포워드 --> boardWriteForm.jsp
 			WebUtil.forward(request, response, "/WEB-INF/views/board/boardWriteForm.jsp");
 		} else if ("write".equals(action)) {
-			System.out.println("게시판 글 등록 폼");
+			System.out.println("게시판 글 등록");
 			
 			//파라미터 값 가져오기
 			//세션에 있는 no
@@ -83,6 +84,40 @@ public class BoardController extends HttpServlet {
 			boardDao.boardInsert(boardVo);
 			
 			//redirect --> action = boardList로
+			WebUtil.redirect(request, response, "/mysite2/Board?action=boardList");
+		} else if ("boardModify".equals(action)) {
+			System.out.println("게시글 수정하기 폼");
+			
+			//파라미터 값 가져오기
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+			//Dao --> getBoard() --> 해당 게시물 데이터 조회해오자
+			BoardDao boardDao = new BoardDao();
+			
+			//vo
+			BoardVo boardVo = boardDao.getBoard(no);
+			
+			//데이터 전달
+			request.setAttribute("bvo", boardVo);
+			
+			//포워드 --> boardModifyForm.jsp
+			WebUtil.forward(request, response, "/WEB-INF/views/board/boardModifyForm.jsp");
+		} else if ("modify".equals(action)) {
+			System.out.println("게시글 수정하기");
+			
+			//파라미터 값 가져오기
+			String title = request.getParameter("bTitle");
+			String content = request.getParameter("bContent");
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+			//BoardVo
+			BoardVo boardVo = new BoardVo(no, title, content);
+			
+			//Dao --> boardUpdate() --> 게시물 수정
+			BoardDao boardDao = new BoardDao();
+			boardDao.boardUpdate(boardVo);
+			
+			//redirect	--> action = boardList
 			WebUtil.redirect(request, response, "/mysite2/Board?action=boardList");
 		}
 	}

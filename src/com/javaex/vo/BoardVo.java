@@ -13,19 +13,16 @@ public class BoardVo {
 	
 	public BoardVo() {}
 
+	public BoardVo(int no, String title, String content) {
+		super();
+		this.no = no;
+		this.title = title;
+		this.content = content;
+	}
+
 	public BoardVo(String title, String content, int userNo) {
 		this.title = title;
 		this.content = content;
-		this.userNo = userNo;
-	}
-
-	public BoardVo(String title, String content, String name, int hit, String regDate, int userNo) {
-		super();
-		this.title = title;
-		this.content = content;
-		this.name = name;
-		this.hit = hit;
-		this.regDate = regDate;
 		this.userNo = userNo;
 	}
 
