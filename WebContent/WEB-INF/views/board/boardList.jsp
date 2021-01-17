@@ -56,49 +56,28 @@
 								<th>관리</th>
 							</tr>
 						</thead>
-							<tbody>
-								<c:if test="${!empty param.searchTxt}">
-									<c:forEach items="${requestScope.sList}" var="searchList">
-										<tr>
-											<td>${searchList.no}</td>
-											<td class="text-left"><a
-												href="/mysite2/Board?action=readBoard&no=${searchList.no}">${searchList.title}</a></td>
-											<td>${searchList.name}</td>
-											<td>${searchList.hit}</td>
-											<td>${searchList.regDate}</td>
-											<c:choose>
-												<c:when test="${authUser.no eq searchList.userNo}">
-													<td><a
-														href="/mysite2/Board?action=delete&no=${searchList.no}">[삭제]</a></td>
-												</c:when>
-												<c:otherwise>
-													<td><a href=""></a></td>
-												</c:otherwise>
-											</c:choose>
-										</tr>
-									</c:forEach>
-								</c:if>
-								<c:forEach items="${requestScope.bList}" var="boardList">
-									<tr>
-										<td>${boardList.no}</td>
-										<td class="text-left"><a
-											href="/mysite2/Board?action=readBoard&no=${boardList.no}">${boardList.title}</a></td>
-										<td>${boardList.name}</td>
-										<td>${boardList.hit}</td>
-										<td>${boardList.regDate}</td>
-										<c:choose>
-											<c:when test="${authUser.no eq boardList.userNo}">
-												<td><a
-													href="/mysite2/Board?action=delete&no=${boardList.no}">[삭제]</a></td>
-											</c:when>
-											<c:otherwise>
-												<td><a href=""></a></td>
-											</c:otherwise>
-										</c:choose>
-									</tr>
-								</c:forEach>
+						<tbody>
+							<c:forEach items="${requestScope.bList}" var="boardList">
+								<tr>
+									<td>${boardList.no}</td>
+									<td class="text-left"><a
+										href="/mysite2/Board?action=readBoard&no=${boardList.no}">${boardList.title}</a></td>
+									<td>${boardList.name}</td>
+									<td>${boardList.hit}</td>
+									<td>${boardList.regDate}</td>
+									<c:choose>
+										<c:when test="${authUser.no eq boardList.userNo}">
+											<td><a
+												href="/mysite2/Board?action=delete&no=${boardList.no}">[삭제]</a></td>
+										</c:when>
+										<c:otherwise>
+											<td><a href=""></a></td>
+										</c:otherwise>
+									</c:choose>
+								</tr>
+							</c:forEach>
 						</tbody>
-						</table>
+					</table>
 		
 					<div id="paging">
 						<ul>

@@ -140,7 +140,6 @@ public class BoardController extends HttpServlet {
 			WebUtil.redirect(request, response, "/mysite2/Board?action=boardList");
 		} else if ("search".equals(action)) {
 			System.out.println("게시글 검색하기");
-			//검색기능 일단 보류.....
 			//파라미터 값 가져오기
 			String str = request.getParameter("searchTxt");
 			
@@ -149,9 +148,15 @@ public class BoardController extends HttpServlet {
 			List<BoardVo> searchList = boardDao.getBoardList(str);
 			
 			//데이터 전송
-			request.setAttribute("sList", searchList);
-			//포워드 --> boardList.jsp
-			WebUtil.forward(request, response, "/WEB-INF/views/board/boardList.jsp");
+			request.setAttribute("bList", searchList);
+			//System.out.println(str);
+			
+			if(str != "") {
+				//포워드 --> boardList.jsp
+				WebUtil.forward(request, response, "/WEB-INF/views/board/boardList.jsp");
+			} else {
+				WebUtil.redirect(request, response, "/mysite2/Board?action=boardList");
+			}
 		}
 	}
 
