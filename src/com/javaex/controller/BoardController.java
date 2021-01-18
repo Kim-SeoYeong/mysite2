@@ -150,13 +150,10 @@ public class BoardController extends HttpServlet {
 			//데이터 전송
 			request.setAttribute("bList", searchList);
 			//System.out.println(str);
+
+			//포워드 --> boardList.jsp
+			WebUtil.forward(request, response, "/WEB-INF/views/board/boardList.jsp");
 			
-			if(str != "") {
-				//포워드 --> boardList.jsp
-				WebUtil.forward(request, response, "/WEB-INF/views/board/boardList.jsp");
-			} else {
-				WebUtil.redirect(request, response, "/mysite2/Board?action=boardList");
-			}
 		}
 	}
 
