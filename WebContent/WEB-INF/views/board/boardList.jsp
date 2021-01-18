@@ -65,15 +65,10 @@
 									<td>${boardList.name}</td>
 									<td>${boardList.hit}</td>
 									<td>${boardList.regDate}</td>
-									<c:choose>
-										<c:when test="${authUser.no eq boardList.userNo}">
-											<td><a
-												href="/mysite2/Board?action=delete&no=${boardList.no}">[삭제]</a></td>
-										</c:when>
-										<c:otherwise>
-											<td><a href=""></a></td>
-										</c:otherwise>
-									</c:choose>
+									<c:if test="${authUser.no eq boardList.userNo}">
+										<td><a
+											href="/mysite2/Board?action=delete&no=${boardList.no}">[삭제]</a></td>
+									</c:if>
 								</tr>
 							</c:forEach>
 						</tbody>
